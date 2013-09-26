@@ -6,17 +6,65 @@
     img[data-flickr-id] {
         visibility: hidden;
     }
+    #forkongithub a{background:#335;color:#fff;text-decoration:none;font-family:arial, sans-serif;text-align:center;font-weight:bold;padding:5px 40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}#forkongithub a:hover{background:#557;color:#fff;}#forkongithub a::before,#forkongithub a::after{content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#fff;}#forkongithub a::after{bottom:1px;top:auto;}@media screen and (min-width:800px){#forkongithub{z-index: 999; position:absolute;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;}#forkongithub a{width:200px;position:absolute;top:60px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);}}
+
+    html, body{
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+    }
+
+    h1, h2{ 
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .container {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    .scrim {
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      top: 0; 
+      left: 0;
+      background: rgba(50,50,50,.3);
+      z-index: 100;
+    }
+    
+    .backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
 
-  <img data-flickr-id="9467631964" width="150" alt="Flickr photo"></img>
+  <span id="forkongithub"><a href="https://github.com/bichiliad/Fittr">Fork me on GitHub</a></span>
+
+  <div class="container">
+    <img class="backdrop" data-flickr-id="9867922225" alt="Flickr photo"></img>
+    <div class="scrim">
+      <div class="headliner">
+<!--         <h1>Fittr</h1>
+        <h2>Using Flickr with your site is now easy.</h2>
+ -->      </div>
+    </div>
+  </div>
+
 
   <script type="text/javascript" src="fittr.js"></script>
   <script type="text/javascript">
 
-    Fittr("77c12091df8cc54a5e0fb3ffc9e2c913", {
-      increment: true
+    var f = Fittr("77c12091df8cc54a5e0fb3ffc9e2c913", {
+      increment: true,
+      incRatio: 2,
+      filter: ".backdrop"
     });
 
   </script>
