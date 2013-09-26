@@ -3,7 +3,7 @@ Fittr
 
 Smartly add Flickr images to your webpages. 
 Simply annotate your images with the id's of flickr images.
-
+Looks great on retina devices, doesn't load unnecessarily large images, and no need for a third party server!
 
 Usage
 -----
@@ -57,6 +57,10 @@ I drew a lot of inspiration from [https://responsive.io/][1] and have had nothin
 their service. 
 
 If you notice any bugs, or if you have any feedback or feature requests, please feel free to [contact me]!
+
+Finally, note that while this script will load any publically available image from flickr, this does not 
+mean that you sould use other people's photos without permission (or unless they say it's ok).
+
 
 
 
