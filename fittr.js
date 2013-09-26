@@ -1,13 +1,12 @@
-var Fittr = function(key) {
-
-  var _ = this;
+var Fittr = function(key, opts) {
+  var opts = opts || {};
   var flickrRoot = "http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=" + key + "&format=json&nojsoncallback=1&photo_id=";
 
-  _.images = [];
+  var images = [];
   var apiKey = "";
 
-  // Don't need no stinkin' jQuery here.
-  _.getJson = function (url, fn) {
+  // Requests JSON data from given url.
+  var getJson = function (url, fn) {
     
     var r = new XMLHttpRequest();
     r.open("GET", url, true);
@@ -30,8 +29,9 @@ var Fittr = function(key) {
     r.send();
   };
 
-  _.getJsonById = function(id, fn) {
-    _.getJson(flickrRoot + id, fn);
+  // Given a Flickr ID, request a list of sizes.
+  var getJsonById = function(id, fn) {
+    getJson(flickrRoot + id, fn);
   }
 
   var rawImgs = document.getElementsByTagName("img");
@@ -39,57 +39,86 @@ var Fittr = function(key) {
     var id = rawImgs[i].getAttribute("data-flickr-id");
     if(id) {
       var elem = rawImgs[i];
-      _.getJsonById(id, function(data, err) {
+      getJsonById(id, function(data, err) {
         if(err) {
           console.error("Failed to retrieve image: " + id, err);
         }
         // Create a new image, initialize it, add it to the list of images.
-        var currImg = new Image(id, elem, data);
+        var currImg = new FittrImage(elem, data, {
+          increment: opts.increment || false,
+          square: opts.square || false
+        });
         currImg.init();
-        _.images.push(currImg);
+        images.push(currImg);
       });
       
     }
   }
 }
 
-var Image = function(id, elem, data, opts){
+var FittrImage = function(elem, data, opts){
   var opts = opts || {};
 
   var _ = this;
 
-  _.elem = elem;                            // Dom element of image.
-  _.flickrId = id;                          // url of image.
-  _.sizes = data.sizes.size;                // Data from Flickr
-  _.square = opts.square || false;          // Do we want a square image?
-  _.density = window.devicePixelRatio || 1; // Pixel density. Default to 1.
-  _.pick;                                   // Holds the image we picked. 
+  var elem = elem;                            // Dom element of image.
+  _.sizes = data.sizes.size;                  // Data from Flickr
+  var square = opts.square || false;          // Do we want a square image?
+  var density = window.devicePixelRatio || 1; // Pixel density. Default to 1.
+  var pick;                                   // Holds the image we picked. 
+  var increment = opts.increment || false;    // Whether or not to load progressively larger images.
+  var pickIncrement;                          // If increment is on, the image to increment from.
 
   // Calculate necessary width. We don't use height, as we don't do any
   // pre-processing on the image and so wouldn't need it.
   // Thus, we need (element's defined width) * (pixel density) 
-  _.width = (_.elem.width || _.elem.style.width) * window.devicePixelRatio;
-  console.log(_.width);
+  _.width = (elem.width || elem.style.width) * density;
 
   // Work your magic, Fittr.
   _.init = function() {
 
     // Find the biggest image that will fit correctly.
-    var pick = null;
     for(var i = 0; i < _.sizes.length; i++) {
       
       // If we're not looking for square images, skip over them.
-      if(_.sizes[i].label.toLowerCase().indexOf("square") !== -1 && !_.square)
+      if(_.sizes[i].label.toLowerCase().indexOf("square") !== -1 && !square)
+        continue;
+      // Likewise, if we are, looking for square images, skip over everything else.
+      if(_.sizes[i].label.toLowerCase().indexOf("square") == -1 && square)
         continue;
 
       // Update the one we pick
       pick = _.sizes[i];
       if(pick.width >= _.width)
         break;
+
+      if(increment                          // We want to increment
+        && !pickIncrement                   // We haven't found an inc image yet
+        && pick.width >= _.width / 2) {     // This one will do.
+        console.log(pick.source);
+        pickIncrement = pick;
+        elem.setAttribute("src", pick.source);
+      }
+
     }
 
-    console.log("IMAGES!", pick.source);
-    _.elem.setAttribute("src", pick.source);
+    if(increment) {
+      console.log(pickIncrement.width);
+      console.log(pick.width);
+      elem.onload = function(){
+        elem.setAttribute("src", pick.source);
+      }
+      elem.setAttribute("src", pickIncrement.source);
+
+    }
+    else {
+      elem.setAttribute("src", pick.source);
+    }
+
+    elem.style.visibility = "visible";
 
   }
 }
+
+
+// 9467631964

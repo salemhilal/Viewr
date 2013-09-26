@@ -3,15 +3,23 @@
 <head>
   <title></title>
   <style type="text/css">
-    img {
-      width: 301px;
+    img[data-flickr-id] {
+        visibility: hidden;
     }
+
   </style>
 </head>
 <body>
 
-  <img data-flickr-id="9467631964" alt="Flickr photo"></img>
+  <img data-flickr-id="9467631964" width="150" alt="Flickr photo"></img>
+
   <script type="text/javascript" src="fittr.js"></script>
-  <script type="text/javascript"></script>
+  <script type="text/javascript">
+
+    Fittr("77c12091df8cc54a5e0fb3ffc9e2c913", {
+      increment: true
+    });
+
+  </script>
 </body>
 </html>
