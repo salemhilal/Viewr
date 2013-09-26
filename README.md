@@ -1,9 +1,13 @@
 Fittr
 =====
 
-Smartly add Flickr images to your webpages. 
+Easily add Flickr images to your webpages. 
 Simply annotate your images with the id's of flickr images.
-Looks great on retina devices, doesn't load unnecessarily large images, and no need for a third party server!
+
+ * Looks great on retina devices!
+ * Doesn't load unnecessarily large images! 
+ * Entirely client-side!
+ * Recommended by 9/10 dentists!
 
 Usage
 -----
