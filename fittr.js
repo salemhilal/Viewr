@@ -89,9 +89,7 @@ var Image = function(id, elem, data, opts){
     }
 
     console.log("IMAGES!", pick.source);
-    _.elem.height = pick.height;
     _.elem.setAttribute("src", pick.source);
 
   }
 }
-
