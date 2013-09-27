@@ -21,15 +21,15 @@ retina screens suffer from awful load times.
 Usage
 -----
 
-To use this in your site, first include the script file just before the closing ```<body>``` tag:
+To use this in your site, first include the script file at the bottom of your page:
 
-    <script srce="fittr.js"></script>
+    <script src="fittr.js"></script>
 
-Start Fittr up inside ```<script>``` tags right after that, as follows: 
+Starting up Fittr is easy. Grab a Flickr API key from [here][4], up inside ```<script>``` tags right after that, as follows: 
     
     <script>
     
-      Fittr("77c12091df8cc54a5e0fb3ffc9e2c913", {
+      Fittr("yourFittrApiKey", {
         /* Options */  
       });
     
@@ -51,8 +51,8 @@ Options
 You can pass a number of options to Fittr:
 
 #### filter ####
-Only runs on img tags with a given selector (id or class). This is good if you want to use different
-options on different groups of images.
+Only runs on img tags with a given id or class. This lets you use different
+options on different groups of images by creating different copies of Fittr.
 
     default: null
     options: any selector (string)
@@ -78,8 +78,19 @@ Look only for square images (note that flickr only offers square images of size 
     options: boolean (true / false)
 
 
-Notes
+FAQ
 -----
+
+#### What is a Flickr ID? ####
+
+A flickr ID is the number in the URL of the image on Flickr. For example, if you want to use the the following image:
+
+    http://www.flickr.com/photos/s_chen/8179836659/
+
+you would use the id ```8179836659```.
+
+
+#### How do I hide images before they're loaded? ####
 
 Fittr makes sure the visability of every image is set to ```visable``` as soon as it has a valid ```src```
 attribute. If you want to prevent users from seeing unstyled images, set them to be hidden before they're 
@@ -89,19 +100,30 @@ properly loaded by adding the following CSS:
         visibility: hidden;
     }
 
+#### Does this mean I can just use any image from Flickr? ####
+
+While this script will work with any image accessible to your API key, you need to respect the licensing of
+the photo. Make sure you have permission to share an image that you use. 
+
+
+#### This is the coolest thing I've ever seen. Can I hire you? ####
+
+I'm still a student, but I'm [looking for an internship][2]! 
+
+
+Notes & Thanks
+--------------
+
 I drew a lot of inspiration from [responsive.io/][1] and have had nothing but good experiences from 
 their service. 
 
 If you notice any bugs, or if you have any feedback or feature requests, please feel free to [contact me][2]!
 
-Thanks a ton to [Sandra Chen][3] for letting me use her awesome photos to showcase Fittr. 
-
-Finally, note that while this script will load any publically available image from flickr, this does not 
-mean that you sould use other people's photos without permission (or unless they say it's ok).
-
+Thanks a ton to [Sandra Chen][3] for letting me use her awesome photos to make Fittr look good. 
 
 
 
 [1]: https://responsive.io/
 [2]: http://technoheads.org/about/
 [3]: http://www.sandra-chen.com/
+[4]: http://www.flickr.com/services/api/misc.api_keys.html
