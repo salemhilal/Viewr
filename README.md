@@ -1,8 +1,8 @@
-Fittr
+Viewr
 =====
 
 Easily add Flickr images to your webpages. 
-Simply annotate your images with the id's of flickr images.
+Simply annotate your images with the id's of Flickr images.
 
  * Looks great on retina devices!
  * Doesn't load unnecessarily large images! 
@@ -23,7 +23,7 @@ Usage
 
 To use this in your site, first include the script file at the bottom of your page:
 
-    <script src="fittr.js"></script>
+    <script src="viewr.js"></script>
 
 Starting up Fittr is easy. Grab a Flickr API key from [here][4], up inside ```<script>``` tags right after that, as follows: 
     
