@@ -1,66 +1,81 @@
-var Fittr = function(key, opts) {
-  var _ = this;
-  var opts = opts || {};
-  var flickrRoot = "http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=" + key + "&format=json&nojsoncallback=1&photo_id=";
+var Viewr  = function(key, opts) {
+  "use strict";
+
+  var _ = this; // Makes things easier for me / I'm lazy and don't like typing.
+  _.opts = opts || {};
+  _.key = key;
+
+  // Get options ready
+  _.opts.filter = _.opts.filter || null;
+  _.opts.increment = _.opts.increment || true;
+  _.opts.incRatio = _.opts.incRatio || 2;
+  _.opts.square = _.opts.square || false;
+
+  // Where we make queries to.
+  var flickrRoot = "http://api.flickr.com/services/rest/" +
+    "?method=flickr.photos.getSizes&api_key=" +
+    _.key + "&format=json&nojsoncallback=1&photo_id=";
 
   var images = [];
-  var apiKey = "";
-  var filter = opts.filter || null;
 
-  // Requests JSON data from given url.
+  // Requests JSON data from @url, passes received data to callback @fn.
+  // @fn accepts (err, obj), where err is any error and obj is received data.
   var getJson = function (url, fn) {
-    
+
     var r = new XMLHttpRequest();
     r.open("GET", url, true);
 
     r.onreadystatechange = function() {
       // readyState === 4 => ruest finished, response is ready
       if (r.readyState === 4) {
-        if (r.status === 200){
+
+        if (r.status === 200) { // Got a bite!
           fn(JSON.parse(r.responseText));
         }
-        else{
+        else { // Something went wrong
           console.error(r);
           fn(null, {
             status: r.status,
             statusText: r.statusText
-          }); 
+          });
         }
+
       }
     }
     r.send();
   };
 
   // Given a Flickr ID, request a list of sizes.
-  var getJsonById = function(id, fn) {
+  _.getImgsForID = function(id, fn) {
     getJson(flickrRoot + id, fn);
   }
 
   _.reload = function(){
     // Get the list of image tags, filtering if need be.
     var rawImgs;
-    if (!filter) {
+    if (!_.opts.filter) {
       rawImgs = document.getElementsByTagName("img");
     }
     else {
-      rawImgs = document.querySelectorAll(filter);
+      rawImgs = document.querySelectorAll(_.opts.filter);
     }
 
     for(var i = 0; i < rawImgs.length; i++) {
       var id = rawImgs[i].getAttribute("data-flickr-id");
       var tag = rawImgs[i].tagName.toLowerCase();
-      if(id &&  tag == "img") {
+
+      if(id &&  tag == "img") {  // Perhaps background for divs later?
         var elem = rawImgs[i];
-        getJsonById(id, function(data, err) {
+        _.getImgsForID(id, function(data, err) {
           if(err) {
             console.error("Failed to retrieve image: " + id, err);
           }
           // Create a new image, initialize it, add it to the list of images.
-          var currImg = new FittrImage(elem, data, opts);
+          var currImg = new ViewrImage(elem, data, opts);
           currImg.init();
           images.push(currImg);
         });
-        
+
       }
     }
   }
@@ -69,31 +84,31 @@ var Fittr = function(key, opts) {
 
 }
 
-var FittrImage = function(elem, data, opts){
-  var opts = opts || {};
+var ViewrImage = function(elem, data, opts){
 
   var _ = this;
+  _.opts = opts || {};
 
   var elem = elem;                             // Dom element of image.
   var sizes = data.sizes.size;                 // Data from Flickr
-  var square = opts.square || false;           // Do we want a square image?
+  var square = _.opts.square || false;           // Do we want a square image?
   var density = window.devicePixelRatio || 1;  // Pixel density. Default to 1.
-  var pick;                                    // Holds the image we picked. 
-  var increment = opts.increment || true;      // Whether or not to load progressively larger images.
+  var pick;                                    // Holds the image we picked.
+  var increment = _.opts.increment || true;      // Whether or not to load progressively larger images.
   var pickIncrement;                           // If increment is on, the image to increment from.
-  var incRatio = opts.incRatio || 2;
+  var incRatio = _.opts.incRatio || 2;
 
   // Calculate necessary width. We don't use height, as we don't do any
   // pre-processing on the image and so wouldn't need it.
-  // Thus, we need (element's defined width) * (pixel density) 
+  // Thus, we need (element's defined width) * (pixel density)
   _.width = (elem.width || elem.style.width) * density;
 
-  // Work your magic, Fittr.
+  // Work your magic, Viewr.
   _.init = function() {
 
     // Find the biggest image that will fit correctly.
     for(var i = 0; i < sizes.length; i++) {
-      
+
       // If we're not looking for square images, skip over them.
       if(sizes[i].label.toLowerCase().indexOf("square") !== -1 && !square)
         continue;

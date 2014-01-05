@@ -25,11 +25,11 @@ To use this in your site, first include the script file at the bottom of your pa
 
     <script src="viewr.js"></script>
 
-Starting up Fittr is easy. Grab a Flickr API key from [here][4], up inside ```<script>``` tags right after that, as follows: 
+Starting up Viewr is easy. Grab a Flickr API key from [here][4], up inside ```<script>``` tags right after that, as follows: 
     
     <script>
     
-      Fittr("yourFittrApiKey", {
+      Viewr("yourFlickrApiKey", {
         /* Options */  
       });
     
@@ -42,17 +42,17 @@ Be sure to set a width, either with CSS or inline:
 
     <img data-flickr-id="9467631964" width="500" alt="Flickr photo"></img>
 
-And that's it! Fittr takes care of loading the optimal image size from Flickr, whether on a retina display or not.
+And that's it! Viewr takes care of loading the optimal image size from Flickr, whether on a retina display or not.
 
 
 Options
 -------
 
-You can pass a number of options to Fittr:
+You can pass a number of options to Viewr:
 
 #### filter ####
 Only runs on img tags with a given id or class. This lets you use different
-options on different groups of images by creating different copies of Fittr.
+options on different groups of images by creating different copies of Viewr.
 
     default: null
     options: any selector (string)
@@ -68,7 +68,7 @@ Good if you're loading large images and want to display content as soon as possi
 The ratio between the size of the final image loaded the incremental image load. 
 Defaults to three, which means that the first image to load is 1/3 the resolution of the final image. 
 
-    default: 3
+    default: 2 
     options: any number
 
 #### square ####
@@ -92,7 +92,7 @@ you would use the id ```8179836659```.
 
 #### How do I hide images before they're loaded? ####
 
-Fittr makes sure the visability of every image is set to ```visable``` as soon as it has a valid ```src```
+Viewr makes sure the visability of every image is set to ```visable``` as soon as it has a valid ```src```
 attribute. If you want to prevent users from seeing unstyled images, set them to be hidden before they're 
 properly loaded by adding the following CSS:
 
@@ -119,7 +119,7 @@ their service.
 
 If you notice any bugs, or if you have any feedback or feature requests, please feel free to [contact me][2]!
 
-Thanks a ton to [Sandra Chen][3] for letting me use her awesome photos to make Fittr look good. 
+Thanks a ton to [Sandra Chen][3] for letting me use her awesome photos to make Viewr look good. 
 
 
 
