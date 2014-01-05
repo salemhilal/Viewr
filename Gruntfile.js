@@ -8,15 +8,15 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+        src: 'viewr.js',
+        dest: 'viewr.min.js'
       }
     },
     jasmine: {
       viewr: {
         src: 'viewr.js',
         options: {
-          specs: 'tests/*.js'
+          specs: 'tests/test-*.js'
         }
       }
     }
@@ -27,7 +27,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
 
 
-  // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+  // Do everything.
+  grunt.registerTask('default', ['jasmine','uglify']);
  
+  // Just test
+  grunt.registerTask('test', ['jasmine']);
+
+  // Minify
+  grunt.registerTask('min', ['uglify']);
 };
