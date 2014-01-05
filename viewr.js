@@ -1,15 +1,19 @@
 var Viewr  = function(key, opts) {
   "use strict";
 
+  if(!key) {
+    throw "You must provide a Flickr API key for Viewr to work."
+  }
+
   var _ = this; // Makes things easier for me / I'm lazy and don't like typing.
   _.opts = opts || {};
   _.key = key;
 
   // Get options ready
-  _.opts.filter = _.opts.filter || null;
-  _.opts.increment = _.opts.increment || true;
+  _.opts.filter = _.opts.filter || null; // Will always return LHS
+  _.opts.increment = ("increment" in _.opts) ? _.opts.increment : true;
   _.opts.incRatio = _.opts.incRatio || 2;
-  _.opts.square = _.opts.square || false;
+  _.opts.square = ("square" in _.opts) ? _.opts.square : false;
 
   // Where we make queries to.
   var flickrRoot = "http://api.flickr.com/services/rest/" +
