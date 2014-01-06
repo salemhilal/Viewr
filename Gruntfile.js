@@ -26,6 +26,12 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
+        curly: true,
+        eqeqeq: true,
+        freeze: true, 
+        indent: 2,
+        newcap: true,
+        noempty: true,
       },
       all: ['Gruntfile.js', 'package.json', 'viewr.js', 'tests/*.js']
     }

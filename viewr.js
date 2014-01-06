@@ -67,7 +67,7 @@ var Viewr  = function(key, opts) {
     var getImgCallback = function(data, err) {
       if(err) {
         console.error("Failed to retrieve image: " + id, err);
-       }
+      }
       // Create a new image, initialize it, add it to the list of images.
       var currImg = new ViewrImage(elem, data, opts);
       currImg.init();
@@ -78,7 +78,7 @@ var Viewr  = function(key, opts) {
       var id = rawImgs[i].getAttribute("data-flickr-id");
       var tag = rawImgs[i].tagName.toLowerCase();
 
-      if(id &&  tag == "img") {  // Perhaps background for divs later?
+      if(id &&  tag === "img") {  // Perhaps background for divs later?
         var elem = rawImgs[i];
         _.getImgsForID(id, getImgCallback);
 
@@ -124,16 +124,19 @@ var ViewrImage = function(elem, data, opts){
     for (var i = 0; i < sizes.length; i++) {
 
       // If we're not looking for square images, skip over them.
-      if (sizes[i].label.toLowerCase().indexOf("square") !== -1 && !square)
+      if (sizes[i].label.toLowerCase().indexOf("square") !== -1 && !square) {
         continue;
+      }
       // Likewise, if we are, looking for square images, skip over everything else.
-      if (sizes[i].label.toLowerCase().indexOf("square") == -1 && square)
+      if (sizes[i].label.toLowerCase().indexOf("square") === -1 && square) {
         continue;
+      }
 
       // Update the one we pick
       pick = sizes[i];
-      if (pick.width >= _.width)
+      if (pick.width >= _.width) {
         break;
+      }
 
       if ( increment &&                           // We want to increment
            !pickIncrement &&                      // We haven't found an inc image yet
