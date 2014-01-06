@@ -15,7 +15,7 @@ describe("Viewer, at the very least,", function() {
   it("should throw an exception if no API key is provided", function() {
     var test = function() {
       var viewr = new Viewr();
-    }
+    };
 
     expect(test).toThrow(new Error("You must provide a Flickr API key for Viewr to work."));
   });
