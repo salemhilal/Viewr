@@ -111,6 +111,19 @@ the photo. Make sure you have permission to share an image that you use.
 I'm still a student, but I'm [looking for an internship][2]! 
 
 
+
+Testing
+------
+
+I stayed up way past my bed time this one night and made a bunch of tests for this library. 
+If you want to make sure the build works, make sure you have grunt installed (```npm install -g grunt```).
+
+The following grunt tasks are available: 
+
+ * ```grunt``` or ```grunt default``` - Lints, tests, and minifies the library.
+ * ```grunt test``` - Test the library.
+ * ```grunt lint``` - Lints the library.
+
 Notes & Thanks
 --------------
 
