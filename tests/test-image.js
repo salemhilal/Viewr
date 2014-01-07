@@ -34,6 +34,8 @@ describe('Viewr images', function() {
       var viewrImage = new ViewrImage();
     };
 
+    var err = 
+    
     expect(test1).toThrow("Invalid ViewrImage: ensure elem and data are supplied");
     expect(test2).toThrow("Invalid ViewrImage: ensure elem and data are supplied");
     expect(test3).toThrow("Invalid ViewrImage: ensure elem and data are supplied");

@@ -53,4 +53,26 @@ describe("Viewer, at the very least,", function() {
     expect(viewr.key).toBe("key");
   });
 
+
+  // Make sure a callback function is actually called. 
+  it("should run its callback", function() {
+    var flag = false; 
+    var test = {}; 
+    test.fn = function() {flag = true;};
+    spyOn(test, "fn").andCallThrough();
+
+    runs(function() {
+      var viewr = new Viewr("key", null, test.fn);
+    });
+
+    waitsFor(function() {
+      return flag;
+    }, 500);
+
+    runs(function() {
+      expect(test.fn).toHaveBeenCalled();
+      expect(test.fn.calls.length).toEqual(1);
+    });
+
+  });
 });
