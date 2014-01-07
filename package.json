@@ -10,6 +10,6 @@
     "grunt-shell": "~0.6.1"
   },
   "scripts": {
-    "postinstall": "grunt hooks && grunt default"
+    "postinstall": "grunt hooks "
   }
 }
