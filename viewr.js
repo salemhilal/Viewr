@@ -1,4 +1,4 @@
-var Viewr  = function(key, opts) {
+var Viewr  = function(key, opts, fn) { //TODO: make opts optional.
   "use strict";
 
   if(!key) {
@@ -8,6 +8,7 @@ var Viewr  = function(key, opts) {
   var _ = this; // Makes things easier for me / I'm lazy and don't like typing.
   _.opts = opts || {};
   _.key = key;
+  _.fn = fn || (function(){});
 
   // Get options ready
   _.opts.filter = _.opts.filter || null; // Will always return LHS
@@ -20,7 +21,7 @@ var Viewr  = function(key, opts) {
     "?method=flickr.photos.getSizes&api_key=" +
     _.key + "&format=json&nojsoncallback=1&photo_id=";
 
-  var images = [];
+  _.images = [];
 
   // Requests JSON data from @url, passes received data to callback @fn.
   // @fn accepts (err, obj), where err is any error and obj is received data.
@@ -54,7 +55,14 @@ var Viewr  = function(key, opts) {
     getJson(flickrRoot + id, fn);
   };
 
-  _.reload = function(){
+  // Are we done with all our requests?
+  _.done = false;
+
+  _.reload = function() {
+    _.done = false;
+    var count = 1; 
+
+
     // Get the list of image tags, filtering if need be.
     var rawImgs;
     if (!_.opts.filter) {
@@ -62,6 +70,12 @@ var Viewr  = function(key, opts) {
     }
     else {
       rawImgs = document.querySelectorAll(_.opts.filter);
+    }
+
+    // If there are no images, call the callback and return
+    if(rawImgs.length === 0) {
+      _.fn();
+      return;
     }
     
     var getImgCallback = function(data, err) {
@@ -71,7 +85,14 @@ var Viewr  = function(key, opts) {
       // Create a new image, initialize it, add it to the list of images.
       var currImg = new ViewrImage(elem, data, opts);
       currImg.init();
-      images.push(currImg);
+      _.images.push(currImg);
+      
+      count++;
+      if(count === rawImgs.length) {
+        _.done = true;
+        _.fn();
+      }
+      
     };
 
     for(var i = 0; i < rawImgs.length; i++) {
