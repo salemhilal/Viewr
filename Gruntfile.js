@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    // Minification
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -14,6 +15,7 @@ module.exports = function(grunt) {
       }
     },
   
+    // For code testing
     jasmine: {
       viewr: {
         src: 'viewr.js',
@@ -24,6 +26,7 @@ module.exports = function(grunt) {
       }
     },
 
+    // Make sure our code is well linted
     jshint: {
       options: {
         curly: true,
@@ -34,6 +37,20 @@ module.exports = function(grunt) {
         noempty: true,
       },
       all: ['Gruntfile.js', 'package.json', 'viewr.js', 'tests/*.js']
+    },
+
+    // Get rid of...
+    clean: {
+      // any pre-commit hooks
+      hooks: ['./git/hooks/pre-commit']
+    },
+
+    // Run shell commands
+    shell: {
+      // Add git hooks
+      hooks: {
+        command: 'cp git-hooks/pre-commit .git/hooks/'
+      }
     }
   });
  
@@ -41,6 +58,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-shell');
 
 
   // Do everything.
@@ -51,4 +70,7 @@ module.exports = function(grunt) {
 
   // Just lint
   grunt.registerTask('lint', ['jshint']);
+
+  // Set up git pre-commit hooks
+  grunt.registerTask('hooks', ['clean:hooks', 'shell:hooks']);
 };
