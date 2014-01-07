@@ -1,6 +1,11 @@
 {
   "name": "Viewr",
   "version:": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bichiliad/Viewr.git"
+  },
+
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-jasmine": "~0.5.2",
@@ -9,6 +14,7 @@
     "grunt-contrib-clean": "~0.5.0",
     "grunt-shell": "~0.6.1"
   },
+
   "scripts": {
     "postinstall": "grunt hooks "
   }
