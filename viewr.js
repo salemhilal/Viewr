@@ -6,6 +6,7 @@ var Viewr  = function(key, opts, fn) { //TODO: make opts optional.
   }
 
   var _ = this; // Makes things easier for me / I'm lazy and don't like typing.
+
   _.opts = opts || {};
   _.key = key;
   _.fn = fn || (function(){});
@@ -78,33 +79,27 @@ var Viewr  = function(key, opts, fn) { //TODO: make opts optional.
       return;
     }
     
-    var getImgCallback = function(data, err) {
-      if(err) {
-        console.error("Failed to retrieve image: " + id, err);
-      }
-      // Create a new image, initialize it, add it to the list of images.
-      var currImg = new ViewrImage(elem, data, opts);
-      currImg.init();
-      _.images.push(currImg);
-      
-      count++;
-      if(count === rawImgs.length) {
-        _.done = true;
-        _.fn();
-      }
-      
-    };
+    // NodeList to Array, so we can do foreach.
+    var imgs = [];
+    for (var i = rawImgs.length; i--; imgs.unshift(rawImgs[i]));
 
-    for(var i = 0; i < rawImgs.length; i++) {
-      var id = rawImgs[i].getAttribute("data-flickr-id");
-      var tag = rawImgs[i].tagName.toLowerCase();
+    imgs.forEach(function(elem) {
+      var id = elem.getAttribute("data-flickr-id"); //TODO: Make this user defined.
+      var tag = elem.tagName.toLowerCase();
 
-      if(id &&  tag === "img") {  // Perhaps background for divs later?
-        var elem = rawImgs[i];
-        _.getImgsForID(id, getImgCallback);
+      if(id && tag === "img") {
+        _.getImgsForID(id, function(data, err) {
+          if(err) {
+            console.error("Failed to retrieve image: " + id, err);
+          }
 
+          // Create a new image, initialize it, add it to the list of images.
+          var currImg = new ViewrImage(elem, data, opts);
+          currImg.init();
+          _.images.push(currImg);
+        });
       }
-    }
+    });
   };
 
   _.reload();
@@ -140,6 +135,7 @@ var ViewrImage = function(elem, data, opts){
 
   // Work your magic, Viewr.
   _.init = function() {
+    console.log("Initializing image with width of", _.width);
 
     // Find the biggest image that will fit correctly.
     for (var i = 0; i < sizes.length; i++) {
