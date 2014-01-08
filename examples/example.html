@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Viewr</title>
+</head>
+<body>
+
+  <img data-flickr-id="10594224223" style="width:300px"/>
+  <img data-flickr-id="10594224223" style="width:500px"/>
+  <img data-flickr-id="10594224223" style="width:700px"/>
+  <img data-flickr-id="10594224223" style="width:900px"/>
+
+  <script src="../viewr.js"></script>
+  <script src="../tests/keys.js"></script>
+  <script>
+    // If you want this to work, make sure you put a key in keys.js!
+    var viewr = new Viewr(flickr_key, {
+      increment: true,
+      incRatio: 2
+    });
+  </script>
+</body>
+</html>
