@@ -1,6 +1,8 @@
 Viewr
 =====
 
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bichiliad/viewr/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 Easily add Flickr images to your webpages. 
 Simply annotate your images with the id's of Flickr images.
 
