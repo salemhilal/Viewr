@@ -2,5 +2,11 @@
 #
 # Pre-commit hooks
 
+# Don't test non-committed code
+git stash -q --keep-index
+
 # Lint, test, and minify the code before we push
 grunt default
+
+# Re-apply non-committed code
+git stash pop -q
