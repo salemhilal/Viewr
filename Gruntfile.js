@@ -34,7 +34,7 @@ module.exports = function(grunt) {
         freeze: true, 
         indent: 2,
         newcap: true,
-        noempty: true,
+        noempty: false
       },
       all: ['Gruntfile.js', 'package.json', 'viewr.js', 'tests/*.js']
     },

@@ -36,9 +36,9 @@ describe("The core functionality of Viewr", function() {
   // Did we get all the elements we should have got? 
   it("should select all valid image tags", function() {
     // Make some DOM elements to test on. 
-    var html = "<img data-flickr-id='10594224223'/>" + 
-        "<img src='about:blank'/>" + // No data-flickr-id
-        "<img data-flickr-id='9074324292'/>";
+    var html = "<img data-flickr-id='10594224223' width=50 />" + 
+        "<img src='about:blank' width=50 />" + // No data-flickr-id
+        "<img data-flickr-id='9074324292' width=50 />";
 
     var d = document.createElement("div"); 
     d.innerHTML = html;

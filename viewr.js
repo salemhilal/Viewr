@@ -81,7 +81,7 @@ var Viewr  = function(key, opts, fn) { //TODO: make opts optional.
     
     // NodeList to Array, so we can do foreach.
     var imgs = [];
-    for (var i = rawImgs.length; i--; imgs.unshift(rawImgs[i]));
+    for (var i = rawImgs.length; i--; imgs.unshift(rawImgs[i])){}
 
     imgs.forEach(function(elem) {
       var id = elem.getAttribute("data-flickr-id"); //TODO: Make this user defined.
@@ -97,6 +97,13 @@ var Viewr  = function(key, opts, fn) { //TODO: make opts optional.
           var currImg = new ViewrImage(elem, data, opts);
           currImg.init();
           _.images.push(currImg);
+
+          count++;
+          if (count === rawImgs.length) {
+            _.done = true;
+            _.fn();
+          }
+
         });
       }
     });

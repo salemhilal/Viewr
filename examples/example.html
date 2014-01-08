@@ -18,6 +18,9 @@
     var viewr = new Viewr(flickr_key, {
       increment: true,
       incRatio: 2
+    }, function() {
+
+      console.log("OH LOOK A CALLBACK");
     });
   </script>
 </body>
