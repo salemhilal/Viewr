@@ -113,7 +113,7 @@ var Viewr  = function(key, opts, fn) { //TODO: make opts optional.
 
 };
 
-var ViewrImage = function(elem, data, opts){
+var ViewrImage = function(elem, data, opts, callback){
 
   var _ = this;
   _.opts = opts || {};
@@ -127,6 +127,8 @@ var ViewrImage = function(elem, data, opts){
   }
 
   //TODO: Make these attributes of this. Don't forget @elem.
+  _.elem = elem; // like this;
+  var fn = callback || function () {};
   var sizes = data.sizes.size;                 // Data from Flickr
   var square = _.opts.square || false;           // Do we want a square image?
   var density = window.devicePixelRatio || 1;  // Pixel density. Default to 1.
@@ -139,6 +141,7 @@ var ViewrImage = function(elem, data, opts){
   // pre-processing on the image and so wouldn't need it.
   // Thus, we need (element's defined width) * (pixel density)
   _.width = (elem.width || elem.style.width) * density;
+  console.log("Width is", _.width);
 
   // Work your magic, Viewr.
   _.init = function() {
@@ -147,6 +150,7 @@ var ViewrImage = function(elem, data, opts){
     // Find the biggest image that will fit correctly.
     for (var i = 0; i < sizes.length; i++) {
 
+      //TODO: Better logic this. I think this could be one === statement.
       // If we're not looking for square images, skip over them.
       if (sizes[i].label.toLowerCase().indexOf("square") !== -1 && !square) {
         continue;
@@ -172,8 +176,18 @@ var ViewrImage = function(elem, data, opts){
     }
 
     if (increment && pickIncrement) {
-      elem.onload = function(){
+      elem.onload = function() {
         elem.setAttribute("src", pick.source);
+        elem.onload = function() {
+          fn();
+        };
+      };
+      elem.onerror = function() {
+        elem.setAttribute("src", pick.source);
+        elem.onerror = function() {
+          fn();
+          elem.onerror = null; // infinite loops suck
+        };
       };
       elem.setAttribute("src", pickIncrement.source);
 
