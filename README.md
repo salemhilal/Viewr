@@ -148,3 +148,7 @@ feel free to [contact me][2]!
 [1]: https://responsive.io/
 [2]: http://technoheads.org/about/
 [4]: http://www.flickr.com/services/api/misc.api_keys.html
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bichiliad/viewr/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
